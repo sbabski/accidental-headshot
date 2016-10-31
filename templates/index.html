@@ -3,9 +3,16 @@
 		<title>Preproduction Demo</title>
 	</head>
 	<body>
-		<h1> Preproduction Demo</h1>
-		{% for userinput in userinputs %}
-		<p>{{ userinput.testing }}</p>
+    <h1> Preproduction Demo</h1>
+
+    {% block container %}
+		
+		{% for user in users %}
+	   <div>
+        <a href="/{{ user.name }}">{{ user.name }}</a>
+      </div>
 		{% endfor %}
+
+    {% endblock container %}
 	</body>
 </html>

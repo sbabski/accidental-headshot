@@ -1,19 +1,12 @@
-<<<<<<< HEAD
-=======
 beautifulsoup4==4.5.1
 bs4==0.0.1
->>>>>>> 611046cb270b2d923d95e177a7538175d011e4b5
 click==6.6
 Flask==0.11.1
 gunicorn==19.6.0
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
-<<<<<<< HEAD
-pymongo==3.3.0
 virtualenv==15.0.3
-=======
 pymongo==3.3.1
 requests==2.11.1
->>>>>>> 611046cb270b2d923d95e177a7538175d011e4b5
 Werkzeug==0.11.11

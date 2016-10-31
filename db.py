@@ -22,6 +22,28 @@ projects = db.projects
 #fix triple akira issue - poss fixed
 #add cb
 
+
+
+
+
+#methods for flask
+
+def get_users():
+  return list(users.find())
+
+def get_users_by_name():
+  return list(users.distinct('name'))
+
+def get_single_user(name):
+  return users.find_one({'name': name})
+
+def get_single_media_by_id(id):
+  return media.find_one({'_id': id})
+
+
+
+#methods for system
+
 def add_user(name, favs=[]):
   if(len(favs) != 25):
     print('List needs to have 25 items')
