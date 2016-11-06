@@ -4,7 +4,7 @@ from pprint import pprint
 from extractor import *
 
 client = MongoClient()
-db = client.preproduction
+db = client.prepro
 users = db.users
 media = db.media
 tropes = db.tropes
@@ -23,3 +23,17 @@ def get_single_user(name):
 
 def get_single_media_by_id(id):
   return media.find_one({'_id': id})
+
+
+#user will specify name and favs to be placed in default project
+def add_user(name, favs=[]):
+    id = ObjectId()
+    project_comp = {'account': id, 'name': name, 'media': favs}
+    project = add_project(name+'_default', [project_comp])
+    user = users.insert_one({'_id': id, 'name': name, 'projects': [project]})
+    return user.inserted_id
+
+#create a project with name and preconstructed members
+def add_project(name, members):
+    project = projects.insert_one({'name': name, 'members': members})
+    return project.inserted_id
