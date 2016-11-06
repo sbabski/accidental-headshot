@@ -1,25 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask.ext.login import LoginManager
 import bcrypt
 import db
 
 app = Flask(__name__)
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def index():
   if 'username' in session:
     return 'You are logged in as' + session['username']
-  users = db.get_users()
-  return render_template('index.html', users=users)
+  #users = db.get_users()
+  return render_template('index.html')
 
 @app.route('/login')
 def login():
   return ''
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
   if request.method == 'POST':
     name = request.form['username']
