@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from bson import ObjectId
 from pprint import pprint
-from extractor import *
+#from extractor import *
 
 client = MongoClient()
 db = client.prepro
