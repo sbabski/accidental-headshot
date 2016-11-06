@@ -16,7 +16,7 @@ def login():
   name = request.form['username']
   exists = db.users.find_one({'name': name})
   if exists:
-    if bcrypt.hashpw(request.form['password'].encode('utf-8'), exists['password'].encode('utf-8')) == exists['password'].encode('utf-8'):
+    if bcrypt.hashpw(request.form['password'].encode('utf-8'), exists['password']) == exists['password']:
       session['username'] = name
       return redirect(url_for('index'))
   return 'Invalid username/password combination'
