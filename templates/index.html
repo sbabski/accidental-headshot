@@ -4,13 +4,27 @@
 		<title>Preproduction Demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/skeleton.css">
+        <link rel="stylesheet" href="/static/css/normalize.css">
+        <link rel="stylesheet" href="/static/css/skeleton.css">
 	</head>
 	<body>
     <h1> Preproduction Demo</h1>
 
     {% block container %}
+    <form method="post" action="{{ url_for('login') }}">
+        <div>
+            <label>Username</label>
+            <input type="text" name="username" placeholder="username">
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="password">
+        </div>
+        <button type="submit">Log In</button>
+        <div>
+            Click <a href="{{ url_for('register') }}">here</a> to register!
+        </div>
+    </form>
 	<div>{{ users|length }}</div>
         {% for user in users %}
         <div>
