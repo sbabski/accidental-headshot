@@ -11,7 +11,6 @@ tropes = db.tropes
 projects = db.projects
 
 #methods for flask
-
 def get_users():
   return list(users.find())
 

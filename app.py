@@ -1,12 +1,22 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask.ext.login import LoginManager
 import db
 
 app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 @app.route('/', methods=['GET'])
 def index():
-	users = db.get_users()
-	return render_template('index.html', users=users)
+  if 'username' in session:
+    return 'You are logged in as' + session['username']
+  users = db.get_users()
+  return render_template('index.html', users=users)
+
+@app.route('/login')
+def login():
+  return ''
 
 @app.route('/<user>')
 def user(user):
@@ -20,5 +30,6 @@ def user(user):
     return render_template('user.html', person=person['name'], favs=favs)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.secret_key = 'belarussianmafia'
+    app.run(host='0.0.0.0', debug=True)
 

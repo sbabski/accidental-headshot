@@ -6,11 +6,23 @@
     <h1> Preproduction Demo</h1>
 
     {% block container %}
-		
-		{% for user in users %}
-	   <div>
-        <a href="/{{ user.name }}">{{ user.name }}</a>
-      </div>
+
+        <form method="post" action="{{url_for(login)}}">
+            <div>
+                <label>Username</label>
+                <input type="text" name="username" placeholder="username">
+            </div>
+            <div>
+                <label>Password</label>
+                <input type="password" name="password" placeholder="password">
+            </div>
+            <button type="submit">Log In</button>
+        </form>
+
+        {% for user in users %}
+        <div>
+            <a href="/{{ user.name }}">{{ user.name }}</a>
+        </div>
 		{% endfor %}
 
     {% endblock container %}
