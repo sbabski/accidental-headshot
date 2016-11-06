@@ -10,6 +10,8 @@ media = db.media
 tropes = db.tropes
 projects = db.projects
 
+users.drop()
+
 #methods for flask
 def get_users():
   return list(users.find())

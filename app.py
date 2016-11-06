@@ -8,15 +8,16 @@ app = Flask(__name__)
 def index():
   if 'username' in session:
     return 'You are logged in as ' + session['username']
-  #users = db.get_users()
-  return render_template('index.html')
+  users = db.get_users()
+  return render_template('index.html', users=users)
 
 @app.route('/login', methods=['POST'])
 def login():
-  exists = db.users.find_one({'name': request.form['username']})
+  name = request.form['username']
+  exists = db.users.find_one({'name': name})
   if exists:
     if bcrypt.hashpw(request.form['password'].encode('utf-8'), exists['password'].encode('utf-8')) == exists['password'].encode('utf-8'):
-      session['username'] = request.form['username']
+      session['username'] = name
       return redirect(url_for('index'))
   return 'Invalid username/password combination'
 
@@ -28,7 +29,7 @@ def register():
     if exists is None:
       hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
       db.add_user(name, hashpass)
-      session['username'] = request.form['username']
+      session['username'] = name
       return redirect(url_for('index'))
 
     return 'That username already exists!'
@@ -42,10 +43,7 @@ def user(user):
     return redirect('/')
   else:
     person = db.get_single_user(user)
-    favs = []
-    for fav in person['favs']:
-      favs.append(db.get_single_media_by_id(fav['media_id']))
-    return render_template('user.html', person=person['name'], favs=favs)
+    return render_template('user.html', person=person['name'])
 
 if __name__ == "__main__":
     app.secret_key = 'belarussianmafia'

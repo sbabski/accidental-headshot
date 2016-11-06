@@ -21,7 +21,7 @@
                 Click <a href="{{ url_for('register') }}">here</a> to register!
             </div>
         </form>
-
+	<div>{{ users|length }}</div>
         {% for user in users %}
         <div>
             <a href="/{{ user.name }}">{{ user.name }}</a>
