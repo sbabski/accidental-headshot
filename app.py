@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
   if 'username' in session:
-    return 'You are logged in as' + session['username']
+    return 'You are logged in as ' + session['username']
   #users = db.get_users()
   return render_template('index.html')
 
