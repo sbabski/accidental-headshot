@@ -7,7 +7,7 @@
 
     {% block container %}
 
-        <form method="post" action="{{url_for('login')}}">
+        <form method="post" action="{{ url_for('login') }}">
             <div>
                 <label>Username</label>
                 <input type="text" name="username" placeholder="username">
@@ -17,6 +17,9 @@
                 <input type="password" name="password" placeholder="password">
             </div>
             <button type="submit">Log In</button>
+            <div>
+                Click <a href="{{ url_for('register') }}">here</a> to register!
+            </div>
         </form>
 
         {% for user in users %}

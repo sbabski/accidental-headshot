@@ -11,9 +11,14 @@ def index():
   #users = db.get_users()
   return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login():
-  return ''
+  exists = db.users.find_one({'name': request.form['username']})
+  if exists:
+    if bcrypt.hashpw(request.form['password'].encode('utf-8'), exists['password'].encode('utf-8')) == exists['password'].encode('utf-8'):
+      session['username'] = request.form['username']
+      return redirect(url_for('index'))
+  return 'Invalid username/password combination'
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
