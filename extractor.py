@@ -25,7 +25,7 @@ def parse_page(title, type):
     #rel_data = re.findall('</h2>.*', str(section))
     #print('cannot find hr')
     #print(to_soup_encoded(format_url(title, type)))
-  result = find_folders(BeautifulSoup(rel_data[0]), title.replace(' ', ''))
+  result = find_folders(BeautifulSoup(rel_data[0], 'html.parser'), title.replace(' ', ''))
   if not len(result):
     result = find_folders(section[0], title.replace(' ', ''))
   return result
@@ -97,7 +97,7 @@ def format_url(title, type):
 
 def to_soup(url):
   r = requests.get(url)
-  return BeautifulSoup(r.content)
+  return BeautifulSoup(r.content, 'html.parser')
 
 def to_soup_encoded(url):
   r = requests.get(url)
@@ -111,7 +111,7 @@ def parse_page_trope(title):
   section = soup.find_all('div', class_='page-content')
   rel_data = re.findall(re.compile('</h2>.*', re.DOTALL), str(section))
   if rel_data:
-    data = BeautifulSoup(rel_data[0])
+    data = BeautifulSoup(rel_data[0], 'html.parser')
     labels = data.find_all('div', class_='folderlabel')
     if labels:
       print('folders')
@@ -121,7 +121,7 @@ def parse_page_trope(title):
         return folders[i].find('ul', recursive=False)
       return extract_lists(labels, cb)
     else:
-      new_data = BeautifulSoup(re.findall(re.compile('<span .*', re.DOTALL), rel_data[0])[0])
+      new_data = BeautifulSoup(re.findall(re.compile('<span .*', re.DOTALL), rel_data[0])[0], 'html.parser')
       labels = new_data.find_all('span', class_='asscaps')
       if labels:
         print('spans')
