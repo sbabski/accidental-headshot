@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask.ext.login import LoginManager
+import bcrypt
 import db
 
 app = Flask(__name__)
@@ -17,6 +18,22 @@ def index():
 @app.route('/login')
 def login():
   return ''
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+  if request.method == 'POST':
+    name = request.form['username']
+    exists = db.users.find_one({'name': name})
+    if exists is None:
+      hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+      db.add_user(name, hashpass)
+      session['username'] = request.form['username']
+      return redirect(url_for('index'))
+
+    return 'That username already exists!'
+
+  return render_template('register.html')
+
 
 @app.route('/<user>')
 def user(user):

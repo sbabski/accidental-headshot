@@ -25,11 +25,11 @@ def get_single_media_by_id(id):
 
 
 #user will specify name and favs to be placed in default project
-def add_user(name, favs=[]):
-    id = ObjectId()
-    project_comp = {'account': id, 'name': name, 'media': favs}
-    project = add_project(name+'_default', [project_comp])
-    user = users.insert_one({'_id': id, 'name': name, 'projects': [project]})
+def add_user(name, hashpass):
+    #id = ObjectId()
+    #project_comp = {'account': id, 'name': name, 'media': favs}
+    #project = add_project(name+'_default', [project_comp])
+    user = users.insert_one({'_id': id, 'name': name, 'password': hashpass, 'projects': []})
     return user.inserted_id
 
 #create a project with name and preconstructed members
