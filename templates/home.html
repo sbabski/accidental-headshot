@@ -1,9 +1,10 @@
 {% extends "index.html" %}
 
 {% block custom_header %}
-    <div class="four columns" style="margin-top: 1.5rem">
+    <div class="two columns u-pull-right" style="margin-top: 1.5rem">
         <a href="{{ url_for('logout') }}" class="button">Log Out</a>
     </div>
+    <div class="u-cf"></div>
 {% endblock custom_header %}
 
 {% block container %}
