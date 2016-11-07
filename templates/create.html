@@ -1,0 +1,15 @@
+{% extends "home.html" %}
+
+{% block container %}
+    <h1>{{ user.name }}</h1>
+    <form>
+        <div class="row">
+            <select>
+                {% for u in users %}
+                <option value="{{ u.name }}">{{ u.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+
+{% endblock container %}

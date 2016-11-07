@@ -14,27 +14,21 @@
                 <div class="eight columns">
                     <h1> Preproduction Demo</h1>
                 </div>
-                {% block custom_header %}
-                <div class="four columns" style="margin-top: 1.5rem">
-                    <a href="{{ url_for('login') }}" class="button">Log In</a>
-                    <a href="{{ url_for('register') }}" class="button">Register</a>
-                </div>
-                {% endblock custom_header %}
             </div>
 
 
-            {% block container %}
+
 
                 <div class="row">
                     <h3>Welcome, {{ user.name }}!</h3>
                 </div>
-                <div class="row">
-                    <div class="u-full-width">
+                <form>
+                    <div class="row">
 
                     </div>
-                </div>
+                </form>
 
-            {% endblock container %}
+
         </div>
 	</body>
 </html>

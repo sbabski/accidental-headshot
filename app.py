@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
   if 'username' in session:
     user = db.users.find_one({'name': session['username']})
-    return render_template('home.html', user = user)
+    return render_template('home.html', user=user)
   return render_template('index.html')
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -43,7 +43,8 @@ def register():
 
 @app.route('/create-taste-profile')
 def create():
-  return ''
+  users = db.users.find()
+  return render_template('create.html', users=users)
 
 @app.route('/logout')
 def logout():
