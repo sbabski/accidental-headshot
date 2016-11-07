@@ -7,11 +7,10 @@ app = Flask(__name__)
 @app.route('/')
 def index():
   if 'username' in session:
-    return 'You are logged in as ' + session['username']
-  users = db.get_users()
-  return render_template('index.html', users=users)
+    return render_template('home.html', user = session['username'])
+  return render_template('index.html')
 
-@app.route('/login', methods=['POST'])
+''''@app.route('/login', methods=['POST'])
 def login():
   name = request.form['username']
   exists = db.users.find_one({'name': name})
@@ -19,7 +18,7 @@ def login():
     if bcrypt.hashpw(request.form['password'].encode('utf-8'), exists['password']) == exists['password']:
       session['username'] = name
       return redirect(url_for('index'))
-  return 'Invalid username/password combination'
+  return 'Invalid username/password combination'''
 
 @app.route('/signin', methods=['POST', 'GET'])
 def signin():
