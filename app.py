@@ -21,6 +21,21 @@ def login():
       return redirect(url_for('index'))
   return 'Invalid username/password combination'
 
+@app.route('/signin', methods=['POST', 'GET'])
+def signin():
+  if request.method == 'POST':
+    name = request.form['username']
+    exists = db.users.find_one({'name': name})
+    if exists:
+      if bcrypt.hashpw(request.form['password'].encode('utf-8'), exists['password']) == exists['password']:
+        session['username'] = name
+        return redirect(url_for('index'))
+
+    return 'Invalid credentials'
+
+  return render_template('login.html')
+
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
   if request.method == 'POST':
