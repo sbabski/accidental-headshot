@@ -1,4 +1,4 @@
-{% extends "index.html" %}
+<!--{% extends "index.html" %}
 
 {% block custom_header %}
     <div class="two columns u-pull-right" style="margin-top: 1.5rem">
@@ -12,5 +12,51 @@
     <div class="row">
         <h3>Welcome, {{ user }}!</h3>
     </div>
+    <div class="row">
+        <div class="u-full-width">
 
-{% endblock container %}
+        </div>
+    </div>
+
+{% endblock container %}-->
+
+<!--<html>
+	<head>
+        <meta charset="utf-8">
+		<title>Preproduction Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../static/css/normalize.css">
+        <link rel="stylesheet" href="../static/css/skeleton.css">
+        <link rel="stylesheet" href="../static/css/style.css">
+	</head>
+	<body>
+        <div class="container">
+            <div class="row">
+                <div class="eight columns">
+                    <h1> Preproduction Demo</h1>
+                </div>
+                {% block custom_header %}
+                <div class="four columns" style="margin-top: 1.5rem">
+                    <a href="{{ url_for('login') }}" class="button">Log In</a>
+                    <a href="{{ url_for('register') }}" class="button">Register</a>
+                </div>
+                {% endblock custom_header %}
+            </div>
+
+
+            {% block container %}
+
+                <div class="row">
+                    <h3>Welcome, {{ user.name }}!</h3>
+                </div>
+                <div class="row">
+                    <div class="u-full-width">
+
+                    </div>
+                </div>
+
+            {% endblock container %}
+        </div>
+	</body>
+</html>-->
