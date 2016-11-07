@@ -20,8 +20,8 @@ def login():
       return redirect(url_for('index'))
   return 'Invalid username/password combination'''
 
-@app.route('/signin', methods=['POST', 'GET'])
-def signin():
+@app.route('/login', methods=['POST', 'GET'])
+def login():
   if request.method == 'POST':
     name = request.form['username']
     exists = db.users.find_one({'name': name})
@@ -49,6 +49,11 @@ def register():
     return 'That username already exists!'
 
   return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+  session.pop('username')
+  return(redirect(url_for('index')))
 
 
 @app.route('/<user>')

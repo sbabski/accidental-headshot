@@ -1,13 +1,15 @@
 {% extends "index.html" %}
 
 {% block custom_header %}
-
+    <div class="four columns" style="margin-top: 1.5rem">
+        <a href="{{ url_for('logout') }}" class="button">Log Out</a>
+    </div>
 {% endblock custom_header %}
 
 {% block container %}
 
     <div class="row">
-        <h1>Welcome, {{ user }}!</h1>
+        <h3>Welcome, {{ user }}!</h3>
     </div>
 
 {% endblock container %}
