@@ -41,6 +41,10 @@ def register():
 
   return render_template('register.html')
 
+@app.route('/create-taste-profile')
+def create():
+  return ''
+
 @app.route('/logout')
 def logout():
   session.pop('username')
