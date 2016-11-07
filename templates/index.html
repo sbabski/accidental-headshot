@@ -14,15 +14,17 @@
                 <div class="eight columns">
                     <h1> Preproduction Demo</h1>
                 </div>
+                {% block custom_header %}
                 <div class="four columns" style="margin-top: 1.5rem">
                     <a href="{{ url_for('signin') }}" class="button">Log In</a>
                     <a href="{{ url_for('register') }}" class="button">Register</a>
                 </div>
+                {% endblock custom_header %}
             </div>
 
 
             {% block container %}
-            <div class="row">
+            <!--<div class="row">
                 <form method="post" action="{{ url_for('login') }}">
                     <div>
                         <label>Username</label>
@@ -37,7 +39,7 @@
                         Click <a href="{{ url_for('register') }}">here</a> to register!
                     </div>
                 </form>
-            </div>
+            </div>-->
 
             {% endblock container %}
         </div>

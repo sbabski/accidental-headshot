@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 {% block container %}
 
-    <form method="post" action="{{url_for('register')}}">
+    <form method="post" action="{{ url_for('register') }}">
         <div>
             <label>Username</label>
             <input type="text" name="username" placeholder="username">
