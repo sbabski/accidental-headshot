@@ -44,6 +44,7 @@ def register():
 @app.route('/create-taste-profile')
 def create():
   users = db.users.find()
+  projects = db.projects.find()
   return render_template('create.html', users=users)
 
 @app.route('/logout')
