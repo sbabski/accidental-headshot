@@ -10,8 +10,6 @@ media = db.media
 tropes = db.tropes
 projects = db.projects
 
-users.remove({'name':'glenn'})
-
 #methods for flask
 def get_users():
   return list(users.find())
