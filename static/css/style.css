@@ -1,0 +1,7 @@
+h1 a {
+  text-decoration: none;
+}
+
+.end-button.off{
+  display: none;
+}
