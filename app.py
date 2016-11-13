@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.datastructures import ImmutableMultiDict
 import bcrypt
 import db
 
@@ -46,7 +47,7 @@ def create():
   if request.method == 'POST':
     f = request.form
     result = f['projectname'] + ' ' + f['select_project'] + ' ' + f['customtype'] + ' ' + f['username'] + ' ' + f['account']
-    return result
+    return str(dict(f))
 
   users = db.users.find()
   projects = db.projects.find()
