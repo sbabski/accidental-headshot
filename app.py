@@ -44,12 +44,8 @@ def register():
 @app.route('/create-taste-profile', methods=['POST', 'GET'])
 def create():
   if request.method == 'POST':
-    name = request.form['username']
-    exists = db.users.find_one({'name': name})
-    if exists is None:
-      return redirect(url_for('index'))
-
-    return 'That username already exists!'
+    r = request.form
+    return 'Form: ' + r
 
   users = db.users.find()
   projects = db.projects.find()
