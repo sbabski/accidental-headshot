@@ -41,8 +41,11 @@ def register():
 
   return render_template('register.html')
 
-@app.route('/create-taste-profile')
+@app.route('/create-taste-profile', methods=['POST', 'GET'])
 def create():
+  if request.method == 'POST':
+    f = request.form
+    print(f)
   users = db.users.find()
   projects = db.projects.find()
   return render_template('create.html', users=users)
