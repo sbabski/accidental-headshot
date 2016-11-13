@@ -49,8 +49,8 @@
             </div>
         </div>
 
-        <span class="button end-button" id="cancel">Cancel</span>
-        <span class="button button-primary end-button" id="confirm">Confirm</span>
+        <span class="button end-button off" id="cancel">Cancel</span>
+        <span class="button button-primary end-button off" id="confirm">Confirm</span>
     </form>
 
 {% endblock container %}
@@ -60,8 +60,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-
-            $('.end-button').hide();
             $('#newExisting').on('click', function() {
                 $('#newExistingInput').show();
             });
@@ -70,13 +68,15 @@
             });
 
             $('.start-button').on('click', function() {
-                $('.end-button').show();
+                //$('.end-button').show();
+		$('.end-button').removeClass('off');
                 $('.start-button').hide();
             });
 
             cancelAdd = function() {
-                $('.end-button, #newCustomInput, #newExistingInput').hide();
-                $('.start-button').show();
+                $('#newCustomInput, #newExistingInput').hide();
+                $('.end-button').addClass('off');
+		$('.start-button').show();
             };
 
             $('#cancel, #confirm').on('click', function() {
