@@ -2,6 +2,18 @@ h1 a {
   text-decoration: none;
 }
 
-.end-button.off{
+.end-button.off, .start-button.off{
   display: none;
+}
+
+table#media-list th.wide {
+	width: 40%;
+}
+
+table#media-list th.narrow {
+	width: 10%;
+}
+
+table#media-list td > * {
+	width:100%;
 }
