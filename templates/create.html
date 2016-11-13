@@ -1,0 +1,96 @@
+{% extends "home.html" %}
+
+{% block container %}
+    <form>
+        <div class="row">
+            <h5>Project Name</h5>
+            <input type="text" name="name" placeholder="name">
+        </div>
+        <div class="row">
+            <h5>Add Members</h5>
+            <span id="newExisting" class="button start-button">Existing Taste Profile</span>
+            <span id="newCustom" class="button start-button">Custom List</span>
+        </div>
+        <div id="newExistingInput" class="row" style="display:none">
+            <label>Choose Existing Taste Profile</label>
+            <select id="select-project">
+                <option selected disabled>Profiles:</option>
+                {% for p in profiles %}
+                <option value="{{ p.name }}">{{ p.name }}</option>
+                {% endfor %}
+            </select>
+            <p id="existingPreview">Show preview of this profile</p>
+        </div>
+        <div id="newCustomInput"style="display:none">
+            <div class="row">
+                <div class="five columns">
+                    <input type="radio" name="customtype" value="fromname">
+                        <span style="margin-left: 1rem">Name</span>
+                    </input>
+                    <input class="u-full-width" type="text" name="username" placeholder="Name">
+                </div>
+                <div class="one column" style="text-align:center;">
+                    <h6 style="margin-top:75%">OR</h6>
+                </div>
+                <div class="five columns">
+                    <input type="radio" name="customtype" value="fromaccount">
+                        <span style="margin-left: 1rem">Account</span>
+                    </input>
+                    <select id="select-account" name="account" class="u-full-width">
+                        <option selected disabled>Users:</option>
+                        {% for u in users %}
+                        <option value="{{ u.name }}">{{ u.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <p id="makeList">Create list for this profile</p>
+            </div>
+        </div>
+
+        <span class="button end-button" id="cancel">Cancel</span>
+        <span class="button button-primary end-button" id="confirm">Confirm</span>
+    </form>
+
+{% endblock container %}
+
+{% block jscustom %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('.end-button').hide();
+            $('#newExisting').on('click', function() {
+                $('#newExistingInput').show();
+            });
+            $('#newCustom').on('click', function() {
+                $('#newCustomInput').show();
+            });
+
+            $('.start-button').on('click', function() {
+                $('.end-button').show();
+                $('.start-button').hide();
+            });
+
+            cancelAdd = function() {
+                $('.end-button, #newCustomInput, #newExistingInput').hide();
+                $('.start-button').show();
+            };
+
+            $('#cancel, #confirm').on('click', function() {
+                if($('#newCustomInput').css('display') != 'none') {
+                    $('input[name="customtype"]').prop('checked', false);
+                    $('#select-account option:first').prop('selected', 'selected');
+                    $('input[name="username"]').val('');
+                } else {
+                    $('#select-project option:first').prop('selected', 'selected');
+                }
+                cancelAdd();
+            });
+
+        });
+    </script>
+
+{%endblock jscustom %}

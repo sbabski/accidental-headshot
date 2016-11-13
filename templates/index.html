@@ -1,0 +1,50 @@
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>Preproduction Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../static/css/normalize.css">
+        <link rel="stylesheet" href="../static/css/skeleton.css">
+        <link rel="stylesheet" href="../static/css/style.css">
+	</head>
+	<body>
+        <div class="container">
+            <div class="row">
+                <div class="eight columns">
+                    <h1> Figures of Style Demo</h1>
+                </div>
+                {% block custom_header %}
+                <div class="four columns" style="margin-top: 1.5rem">
+                    <a href="{{ url_for('login') }}" class="button">Log In</a>
+                    <a href="{{ url_for('register') }}" class="button">Register</a>
+                </div>
+                {% endblock custom_header %}
+            </div>
+
+
+            {% block container %}
+            <!--<div class="row">
+                <form method="post" action="{{ url_for('login') }}">
+                    <div>
+                        <label>Username</label>
+                        <input type="text" name="username" placeholder="username">
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="password">
+                    </div>
+                    <button type="submit">Log In</button>
+                    <div>
+                        Click <a href="{{ url_for('register') }}">here</a> to register!
+                    </div>
+                </form>
+            </div>-->
+
+            {% endblock container %}
+        </div>
+
+    {% block jscustom %}
+    {% endblock jscustom %}
+	</body>
+</html>

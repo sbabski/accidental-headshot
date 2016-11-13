@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block container %}
+
+    <form method="post" action="{{ url_for('register') }}">
+        <div>
+            <label>Username</label>
+            <input type="text" name="username" placeholder="username">
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="password">
+        </div>
+        <button type="submit">Register</button>
+    </form>
+
+{% endblock container %}
