@@ -1,7 +1,7 @@
 {% extends "home.html" %}
 
 {% block container %}
-    <form>
+    <form method="post" action="{{ url_for('create-taste-profile') }}">
         <div class="row">
             <h5>Project Name</h5>
             <input type="text" name="name" placeholder="name">
