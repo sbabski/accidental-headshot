@@ -31,7 +31,7 @@
                 </div>
                 <div id="newExistingInput" class="row" style="display:none">
                     <label>Choose Existing Taste Profile</label>
-                    <select id="select-project">
+                    <select id="select-project" name="select-project">
                         <option selected disabled>Profiles:</option>
                         {% for p in profiles %}
                         <option value="{{ p.name }}">{{ p.name }}</option>

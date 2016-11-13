@@ -44,8 +44,9 @@ def register():
 @app.route('/create-taste-profile', methods=['POST', 'GET'])
 def create():
   if request.method == 'POST':
-    r = request.form
-    return 'Form: ' + r
+    f = request.form
+    result = f['projectname'] + ' ' + f['select_project'] + ' ' + f['customtype'] + ' ' + f['username'] + ' ' + f['account']
+    return result
 
   users = db.users.find()
   projects = db.projects.find()
