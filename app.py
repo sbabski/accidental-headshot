@@ -45,10 +45,15 @@ def register():
 @app.route('/create-taste-profile', methods=['POST', 'GET'])
 def create():
   if request.method == 'POST':
-    f = request.form;
-    if f.customtype == 'fromname':
-      print('from name')
-    return str(dict(request.form))
+    f = dict(request.form);
+    if f['customtype'] == 'fromname':
+      #check if length is right
+      for i  in range(0, len(f['medianame')):
+        #compile name-type-weight
+        #run through extractor
+        #figure out best way to throw error
+        print(f['mediatype']
+    return str(len(f['medianame']))
 
   users = db.users.find()
   projects = db.projects.find()
