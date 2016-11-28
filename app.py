@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.datastructures import ImmutableMultiDict
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 import db
 
@@ -66,11 +66,11 @@ def create():
     f = dict(request.form);
     if f['customtype'] == 'fromname':
       #check if length is right
-      for i  in range(0, len(f['medianame')):
+      for i  in range(0, len(f['medianame'])):
         #compile name-type-weight
         #run through extractor
         #figure out best way to throw error
-        print(f['mediatype']
+        print(f['mediatype'])
     return str(len(f['medianame']))
 
   users = db.users.find()
