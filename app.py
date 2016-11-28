@@ -1,15 +1,33 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.datastructures import ImmutableMultiDict
+from flask.ext.sqlalchemy import SQLAlchemy
 import bcrypt
 import db
 
 app = Flask(__name__)
+app.config.from_pyfile('config.py')
+db2 = SQLAlchemy(app)
+
+# Create our database model
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True)
+
+    def __init__(self, email):
+        self.email = email
+
+    def __repr__(self):
+        return '<E-mail %r>' % self.email
 
 @app.route('/')
 def index():
   if 'username' in session:
     user = db.users.find_one({'name': session['username']})
     return render_template('home.html', user=user)
+  reg = User('test')
+  db2.session.add(reg)
+  db2.session.commit()
   return render_template('index.html')
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -46,7 +64,7 @@ def register():
 def create():
   if request.method == 'POST':
     f = request.form;
-    if f.customtype == 'fromname':
+    if f['customtype'] == 'fromname':
       print('from name')
     return str(dict(request.form))
 
