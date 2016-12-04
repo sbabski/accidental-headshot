@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from pprint import pprint
 from extractor import *
+import sys
 
 client = MongoClient()
 db = client.prepro
@@ -45,7 +46,9 @@ def add_member(name, account, media):
 def add_media(title, type_of, weight):
   #check if already added
   tropes = parse_page(title, type_of)
-  return {'title': title, 'type': type_of}
+  print('Hi', file=sys.stderr)
+  return tropes
+  #return {'title': title, 'type': type_of}
   #media = medias.insert_one({'name': name, 'type': type_of, 'tropes': tropes})
   #return media.inserted_id
 
