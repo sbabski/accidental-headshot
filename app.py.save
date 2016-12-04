@@ -75,8 +75,7 @@ def create():
         weight = f['mediatype'][i]
         result += name
         #run through extractor
-        #figure out best way to throw error
-        varone += 1
+        #figure out best way to throw errorhttp://accidentalheadshot.com:5000/create-taste-profilehttp://accidentalheadshot.com:5000/create-taste-profile
       return str(session['username'])
 
   users = db.users.find()
