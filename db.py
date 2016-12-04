@@ -27,26 +27,27 @@ def get_single_media_by_id(id):
 
 #create a user on their first signin
 def add_user(name, hashpass):
-    #id = ObjectId()
-    #project_comp = {'account': id, 'name': name, 'media': favs}
-    #project = add_project(name+'_default', [project_comp])
-    user = users.insert_one({'name': name, 'password': hashpass, 'projects': []})
-    return user.inserted_id
+  #id = ObjectId()
+  #project_comp = {'account': id, 'name': name, 'media': favs}
+  #project = add_project(name+'_default', [project_comp])
+  user = users.insert_one({'name': name, 'password': hashpass, 'projects': []})
+  return user.inserted_id
 
 #create a project with name and preconstructed members
-def add_project(name, members):
-    project = projects.insert_one({'name': name, 'members': members})
-    return project.inserted_id
+def add_project(name, comps, members):
+  #project = projects.insert_one({'name': name, 'members': members, 'components': comps})
+  #return project.inserted_id
+  project = {'name': name, 'components': comps, 'members': members}
+  return project
 
-#create member subcategory of project
-def add_member(name, account, media):
+#create subcategory of project
+def add_component(name, account, media):
   return {'name': name, 'account': account, 'media': media}
 
 #create a media element and construct requisite tropes
 def add_media(title, type_of, weight):
   #check if already added
   tropes = parse_page(title, type_of)
-  print('Hi', file=sys.stderr)
   return tropes
   #return {'title': title, 'type': type_of}
   #media = medias.insert_one({'name': name, 'type': type_of, 'tropes': tropes})

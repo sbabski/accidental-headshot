@@ -6,7 +6,7 @@ import db
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-db2 = SQLAlchemy(app)
+#db2 = SQLAlchemy(app)
 
 # Create our database model
 '''class User(db.Model):
@@ -38,6 +38,7 @@ def login():
     if exists:
       if bcrypt.hashpw(request.form['password'].encode('utf-8'), exists['password']) == exists['password']:
         session['username'] = name
+        session['userid'] = exists['_id']
         return redirect(url_for('index'))
 
     return 'Invalid credentials'
@@ -52,8 +53,8 @@ def register():
     exists = db.users.find_one({'name': name})
     if exists is None:
       hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-      db.add_user(name, hashpass)
       session['username'] = name
+      session['userid'] = db.add_user(name, hashpass)
       return redirect(url_for('index'))
 
     return 'That username already exists!'
@@ -71,22 +72,19 @@ def create():
       media_name = f['medianame']
       media_list = []
       for i  in range(0, len(media_name)):
-        single = db.add_media(media_name[i], f['mediatype'][i], f['mediatype'][i])
+        single = db.add_media(media_name[i], f['mediatype'][i], f['mediaweight'][i])
         #error throwing for incomplete extraction
         single_list = []
         for s in single:
           #has to be revised: need object id of media already, should be done in db
           single_list.append(db.add_trope(s, media_name[i]))
         media_list.append(single_list)
-      #member = db.add_member(f['username'], False, media_list)
-      comp = {'name': f['username'], 'account': False, 'media': media_list}
+      comp = db.add_component(f['username'], False, media_list)
       comps.append(member)
-      #s = session['username']
-    members = [session['username']]
-    #add ref to this in all users projects
-    #project = add_project(f['projectname'], members)
-    project = {'name': f['projectname'], 'components': components, 'members': members}
+    members = [session['userid']]
     #add project to user and any users with account = True
+    #add ref to this in all users projects
+    project = add_project(f['projectname'], comps, members)
     return str(project)
 
   users = db.users.find()

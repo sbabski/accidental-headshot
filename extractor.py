@@ -51,7 +51,7 @@ def find_folders(data, title=''):
   return list(set(result))
 
 def e(text, cb):
-  #print('extracting section')
+  print('extracting section')
   uls = text.find_all('ul', recursive = False)
   if(not uls):
     print('no links after hr')
