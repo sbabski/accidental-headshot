@@ -70,7 +70,7 @@ def create():
       #check if length is right
       #create member
       member['name'] = f['username']
-      member['account'] = false
+      member['account'] = False
       member['media'] = []
       for i  in range(0, len(f['medianame'])):
         #compile things into media
