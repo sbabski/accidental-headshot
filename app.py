@@ -69,9 +69,9 @@ def create():
     if f['customtype'][0] == 'fromname':
       #check if length is right
       #create member
-      member.name = f['username']
-      member.account = false
-      member.media = []
+      member['name'] = f['username']
+      member['account'] = false
+      member['media'] = []
       for i  in range(0, len(f['medianame'])):
         #compile things into media
         name = f['medianame'][i]
