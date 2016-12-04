@@ -9,7 +9,7 @@ app.config.from_pyfile('config.py')
 db2 = SQLAlchemy(app)
 
 # Create our database model
-class User(db.Model):
+'''class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True)
@@ -18,7 +18,7 @@ class User(db.Model):
         self.email = email
 
     def __repr__(self):
-        return '<E-mail %r>' % self.email
+        return '<E-mail %r>' % self.email'''
 
 @app.route('/')
 def index():
