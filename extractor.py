@@ -1,6 +1,7 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+import pprint
 
 def sitemapper(page):
   print('mapping ' + page)
@@ -39,14 +40,14 @@ def find_folders(data, title=''):
   folders = data.find_all('div', class_='folder')
   result = []
   if folders:
-    #print('extracting folders')
+    print('extracting folders')
     for folder in folders:
       result += e(folder, extract_trope)
   else:
-    #print('no folders')
+    print('no folders')
     def cb(uls):
       return test_sub(uls, title.replace(' ', ''))
-    result = e(data.find('body'), cb)
+    result = e(data, cb)
   return list(set(result))
 
 def e(text, cb):

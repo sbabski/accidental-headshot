@@ -53,8 +53,9 @@ def add_media(title, type_of, weight):
   #return media.inserted_id
 
 #create a trope element to be run through extractor
-def add_trope(title):
+def add_trope(url, media):
   #check if already added
-  trope = tropes.insert_one({'title': title})
-  return trope.inserted_id
-
+  #trope = tropes.insert_one({'title': title})
+  #return trope.inserted_id
+  result = {'url': url, 'media': [media]}
+  return result

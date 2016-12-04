@@ -65,22 +65,29 @@ def create():
   if request.method == 'POST':
     f = dict(request.form);
     result = ''
-    members = []
+    comps = []
     if f['customtype'][0] == 'fromname':
       #check if length is right
+      media_name = f['medianame']
       media_list = []
-      for i  in range(0, len(f['medianame'])):
-        single = add_media(f['medianame'][i], f['mediatype'][i], f['mediatype'][i])
+      for i  in range(0, len(media_name)):
+        single = db.add_media(media_name[i], f['mediatype'][i], f['mediatype'][i])
         #error throwing for incomplete extraction
-        media_list.add(single)
+        single_list = []
+        for s in single:
+          #has to be revised: need object id of media already, should be done in db
+          single_list.append(db.add_trope(s, media_name[i]))
+        media_list.append(single_list)
       #member = db.add_member(f['username'], False, media_list)
-      member = {f['username'], False, []}
-      members.add(member)
-      s = session['username']
+      comp = {'name': f['username'], 'account': False, 'media': media_list}
+      comps.append(member)
+      #s = session['username']
+    members = [session['username']]
+    #add ref to this in all users projects
     #project = add_project(f['projectname'], members)
-    project = {f['projectname'], members}
+    project = {'name': f['projectname'], 'components': components, 'members': members}
     #add project to user and any users with account = True
-    return str(members)
+    return str(project)
 
   users = db.users.find()
   projects = db.projects.find()
