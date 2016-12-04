@@ -38,7 +38,6 @@ def login():
     if exists:
       if bcrypt.hashpw(request.form['password'].encode('utf-8'), exists['password']) == exists['password']:
         session['username'] = name
-        session['userid'] = exists['_id']
         return redirect(url_for('index'))
 
     return 'Invalid credentials'
@@ -54,7 +53,7 @@ def register():
     if exists is None:
       hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
       session['username'] = name
-      session['userid'] = db.add_user(name, hashpass)
+      db.add_user(name, hashpass)
       return redirect(url_for('index'))
 
     return 'That username already exists!'
@@ -80,11 +79,11 @@ def create():
           single_list.append(db.add_trope(s, media_name[i]))
         media_list.append(single_list)
       comp = db.add_component(f['username'], False, media_list)
-      comps.append(member)
-    members = [session['userid']]
+      comps.append(comp)
+    members = [session['username']]
     #add project to user and any users with account = True
     #add ref to this in all users projects
-    project = add_project(f['projectname'], comps, members)
+    project = db.add_project(f['projectname'], comps, members)
     return str(project)
 
   users = db.users.find()
