@@ -66,20 +66,25 @@ def create():
     f = dict(request.form);
     result = ''
     comps = []
-    if f['customtype'][0] == 'fromname':
-      #check if length is right
-      media_name = f['medianame']
-      media_list = []
-      for i  in range(0, len(media_name)):
-        single = db.add_media(media_name[i], f['mediatype'][i], f['mediaweight'][i])
-        #error throwing for incomplete extraction
-        single_list = []
-        for s in single:
-          #has to be revised: need object id of media already, should be done in db
-          single_list.append(db.add_trope(s, media_name[i]))
-        media_list.append(single_list)
-      comp = db.add_component(f['username'], False, media_list)
-      comps.append(comp)
+    if f['customtype']:
+      if f['customtype'][0] == 'fromname':
+        #check if length is right
+        media_name = f['medianame']
+        media_list = []
+        for i  in range(0, len(media_name)):
+          single = db.add_media(media_name[i], f['mediatype'][i], f['mediaweight'][i])
+          #error throwing for incomplete extraction
+          single_list = []
+          for s in single:
+            #has to be revised: need object id of media already, should be done in db
+            single_list.append(db.add_trope(s, media_name[i]))
+          media_list.append(single_list)
+        comp = db.add_component(f['username'], False, media_list)
+        comps.append(comp)
+      else:
+        return 'yes'
+    else:
+      return 'no'
     members = [session['username']]
     #add project to user and any users with account = True
     #add ref to this in all users projects
