@@ -1,12 +1,12 @@
 from pymongo import MongoClient
 from bson import ObjectId
 from pprint import pprint
-#from extractor import *
+from extractor import *
 
 client = MongoClient()
 db = client.prepro
 users = db.users
-media = db.media
+medias = db.media
 tropes = db.tropes
 projects = db.projects
 
@@ -24,7 +24,7 @@ def get_single_media_by_id(id):
   return media.find_one({'_id': id})
 
 
-#user will specify name and favs to be placed in default project
+#create a user on their first signin
 def add_user(name, hashpass):
     #id = ObjectId()
     #project_comp = {'account': id, 'name': name, 'media': favs}
@@ -36,3 +36,22 @@ def add_user(name, hashpass):
 def add_project(name, members):
     project = projects.insert_one({'name': name, 'members': members})
     return project.inserted_id
+
+#create member subcategory of project
+def add_member(name, account, media):
+  return {'name': name, 'account': account, 'media': media}
+
+#create a media element and construct requisite tropes
+def add_media(title, type_of, weight):
+  #check if already added
+  tropes = parse_page(title, type_of)
+  return {'title': title, 'type': type_of}
+  #media = medias.insert_one({'name': name, 'type': type_of, 'tropes': tropes})
+  #return media.inserted_id
+
+#create a trope element to be run through extractor
+def add_trope(title):
+  #check if already added
+  trope = tropes.insert_one({'title': title})
+  return trope.inserted_id
+

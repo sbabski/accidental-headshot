@@ -65,22 +65,22 @@ def create():
   if request.method == 'POST':
     f = dict(request.form);
     result = ''
-    member = {}
+    members = []
     if f['customtype'][0] == 'fromname':
       #check if length is right
-      #create member
-      member['name'] = f['username']
-      member['account'] = false
-      member['media'] = []
+      media_list = []
       for i  in range(0, len(f['medianame'])):
-        #compile things into media
-        name = f['medianame'][i]
-        type = f['mediatype'][i]
-        weight = f['mediatype'][i]
-      #figure out best way to throw error
-      #run member through extractor
+        single = add_media(f['medianame'][i], f['mediatype'][i], f['mediatype'][i])
+        #error throwing for incomplete extraction
+        media_list.add(single)
+      #member = db.add_member(f['username'], False, media_list)
+      member = {f['username'], False, []}
+      members.add(member)
       s = session['username']
-      return str(member)
+    #project = add_project(f['projectname'], members)
+    project = {f['projectname'], members}
+    #add project to user and any users with account = True
+    return str(members)
 
   users = db.users.find()
   projects = db.projects.find()
