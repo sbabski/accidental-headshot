@@ -1,0 +1,236 @@
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../static/css/normalize.css">
+    <link rel="stylesheet" href="../static/css/skeleton.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="eight columns">
+                <h1><a href="/"> Figures of Style Demo</a></h1>
+            </div>
+            <div class="four columns" style="margin-top: 1.5rem">
+                <a href="{{ url_for('login') }}" class="button">Log In</a>
+                <a href="{{ url_for('register') }}" class="button">Register</a>
+            </div>
+        </div>
+        <div class="row">
+            <form id="profile" method="post" action="{{ url_for('create') }}">
+                <div class="row">
+                    <h5>Project Name</h5>
+                    <input type="text" name="projectname" placeholder="Name">
+                </div>
+                <div class="row">
+                    <h5>Add Taste Profiles</h5>
+                    <div class="collapsible">
+                        <div class="header row">
+                            <h6 class="eight columns title">Unnamed</h6>
+                            <div class="four columns">
+                                <div class="u-pull-right">
+                                    <span id="cancel" class="button">Edit</span>
+                                    <span id="cancel" class="button button-primary">Delete</span>
+                                </div>
+                                <div class="u-cf"></div>
+                            </div>
+                        </div>
+                        <div class="content row">
+                            <h6>
+                                <strong>Source</strong> - 
+                                <em>can either create from scratch, attach to existing user, or import from preexisting project</em>
+                            </h6>
+                            <div class="six columns shrink">
+                                <input type="radio" name="comptype" value="fromname" checked>
+                                <span style="margin-left: 1rem">Name</span>
+                                <input id="choose-name" class="u-full-width" type="text" name="username" placeholder="Name">
+                            </div>
+                            <div class="six columns shrink">
+                                <input type="radio" name="comptype" value="fromaccount">
+                                <span style="margin-left: 1rem">Account</span>
+                                <select id="select-account" name="account" class="u-full-width">
+                                    <option selected disabled>Users:</option>
+                                    {% for u in users %}
+                                    <option value="{{ u.name }}">{{ u.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div id="custom-list" class="content row">
+                            <h6>
+                                <strong>Taste Profile Media List</strong> - 
+                                <em>temp: has to have 25 items</em>
+                            </h6>
+                            <table id="media-list" class="u-full-width">
+                                <thead>
+                                    <tr>
+                                        <th class="mini"></th>
+                                        <th class="wide">Name</th>
+                                        <th class="wide">Type</th>
+                                        <th class="narrow">Weight</th>
+                                        <th class="narrow">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><h6 class="numeric">1</h6></td>
+                                        <td>
+                                            <input type="text" name="medianame" placeholder="Name">
+                                        </td>
+                                        <td>
+                                            <select name="mediatype">
+                                                <option>Film</option>
+                                                <option>Anime</option>
+                                                <option>Literature</option>
+                                                <option>Western Animation</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.1" name="mediaweight" min="0" max="1" value=1>
+                                        </td>
+                                        <td><span class="button remove-media">X</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div id="add-new-row" class="button button-primary u-pull-right">Add New Row</div>
+                            <div class="u-cf"></div>
+                        </div>
+                        <div id="import" class="content row off">
+                            <h3>Test</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <span id="cancel" class="button end-button off">Cancel</span>
+                <button type="submit" id="confirm" class="button button-primary end-button off">Confirm</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var $nEI = $('#newExistingInput');
+            var $nCI = $('#newCustomInput');
+            var $sB = $('.start-button');
+            var $eB = $('.end-button');
+            var newRowIndex = 2;
+            var newRowStart = ' \
+                <tr> \
+                    <td><h6 class="numeric">'
+            var newRow = ' \
+                    </h6></td> \
+                    <td> \
+                        <input type="text" name="medianame" placeholder="Name"> \
+                    </td> \
+                    <td> \
+                        <select name="mediatype"> \
+                            <option>Film</option> \
+                            <option>Anime</option> \
+                            <option>Literature</option> \
+                            <option>Western Animation</option> \
+                        </select> \
+                    </td> \
+                    <td> \
+                        <input type="number" step="0.1" name="mediaweight" min="0" max="1" value=1> \
+                    </td> \
+                    <td><span class="button remove-media">X</span></td> \
+                </tr>';
+
+            var $selectAccount = $('#select-account');
+            var $fromAccount = $('input[value="fromaccount"]');
+            var $chooseName = $('#choose-name');
+            var $fromName = $('input[value="fromname"]');
+
+            /*function cancelAdd() {
+                $nCI.add($nEI).hide();
+                $eB.addClass('off');
+                $sB.removeClass('off');
+            };*/
+
+            function removeMedia(el) {
+                var pos = el.parents('tr').find('.numeric').text();
+                el.parents('tbody').children().slice(pos).each(function() {
+                    var num = $(this).find('.numeric');
+                    num.text(num.text() - 1);
+                });
+                newRowIndex--;
+                el.parents('tr').remove();
+            }
+
+            /*$('#newExisting').on('click', function() { $nEI.show(); });
+            $('#newCustom').on('click', function() { $nCI.show(); });*/
+
+            /*$sB.on('click', function() {
+                $eB.removeClass('off');
+                $sB.addClass('off');
+            });*/
+
+            /*$('#cancel').on('click', function() {
+                if($nCI.css('display') != 'none') {
+                    $('input[name="comptype"]').prop('checked', false);
+                    $('#select-account option:first').prop('selected', 'selected');
+                    $('input[name="username"]').val('');
+                } else {
+                    $('#select-project option:first').prop('selected', 'selected');
+                }
+                cancelAdd();
+            });*/                
+
+            $('#add-new-row').on('click', function() {
+                $('#media-list > tbody').append(newRowStart + newRowIndex + newRow);
+                newRowIndex++;
+                $('#media-list > tbody > tr:last .button.remove-media').on('click', function() {
+                    removeMedia($(this));
+                });
+            });
+
+            $('.button.remove-media').on('click', function() {
+                removeMedia($(this));
+            });
+
+            $selectAccount.on('click', function() {
+                $fromAccount[0].checked = true;
+                changeName($selectAccount);
+            });
+
+            $selectAccount.on('change', function() {
+                changeName($selectAccount);
+            });
+
+            $fromAccount.on('click', function() {
+                changeName($selectAccount);
+            });
+
+            $chooseName.on('click', function() {
+                console.log('here');
+                $fromName[0].checked = true;
+                changeName($chooseName);
+            });
+
+            $chooseName.on('change', function() {
+                changeName($chooseName);
+            });
+
+            $fromName.on('click', function() {
+                changeName($chooseName);
+            });
+
+            function changeName(el) {
+                el.parents('.collapsible').find('.title').text(el.val());
+            }
+
+            $('#select-project').on('click', function() {
+                $('input[value="fromproject"]')[0].checked = true;
+            })
+
+            //$('input[value="fromname"], input[value="fromaccount"').on('change', viewCustomList);
+
+            $('#profile').on('submit', function(e) {
+                e.preventDefault();
+                //$(this).submit();
+            });
+        });
+    </script>
+</body>
+</html>
