@@ -85,6 +85,7 @@ def create():
         comp_name = f['account'][0]
         members.append(comp_name)
       comps.append(db.add_component(comp_name, False, media_list))
+    members = list(set(members))
     #add project to all users in members
     project = db.add_project(f['projectname'][0], comps, members)
     return str(project)
