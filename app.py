@@ -3,7 +3,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 import db
-
+from extractor import *
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 #db2 = SQLAlchemy(app)

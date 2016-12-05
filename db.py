@@ -2,7 +2,6 @@ from pymongo import MongoClient
 from bson import ObjectId
 from pprint import pprint
 from extractor import *
-import sys
 
 client = MongoClient()
 db = client.prepro
