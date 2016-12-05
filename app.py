@@ -67,7 +67,7 @@ def create():
     comps = []
     members = [session['username']]
     #check if length is right
-    if f['comptype'][0] == 'fromname' || f['comptype'][0] == 'fromaccount':
+    if f['comptype'][0] == 'fromname' or f['comptype'][0] == 'fromaccount':
       media_name = f['medianame']
       media_list = []
       for i  in range(0, len(media_name)):
@@ -78,11 +78,12 @@ def create():
           #has to be revised: need object id of media already, should be done in db
           single_list.append(db.add_trope(s, media_name[i]))
         media_list.append(single_list)
+      comp_name = ''
       if f['comptype'][0] == 'fromname':
         comp_name = f['username'][0]
       else:
-        members.append(comp_name)
         comp_name = f['account'][0]
+        members.append(comp_name)
       comps.append(db.add_component(comp_name, False, media_list))
     #add project to all users in members
     project = db.add_project(f['projectname'][0], comps, members)
