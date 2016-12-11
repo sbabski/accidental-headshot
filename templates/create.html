@@ -28,16 +28,16 @@
                     <em>can either create from scratch or attach to existing user</em>
                 </h6>
                 <div class="five columns">
-                    <input type="radio" name="customtype" value="fromname">
+                    <input type="radio" name="comptype" value="fromname">
                         <span style="margin-left: 1rem">Name</span>
                     </input>
-                    <input class="u-full-width" type="text" name="username" placeholder="Name">
+                    <input id="choose-name" class="u-full-width" type="text" name="username" placeholder="Name">
                 </div>
                 <div class="one column" style="text-align:center;">
                     <h6 style="margin-top:75%">OR</h6>
                 </div>
                 <div class="five columns">
-                    <input type="radio" name="customtype" value="fromaccount">
+                    <input type="radio" name="comptype" value="fromaccount">
                         <span style="margin-left: 1rem">Account</span>
                     </input>
                     <select id="select-account" name="account" class="u-full-width">
@@ -142,7 +142,7 @@
 
             $('#cancel').on('click', function() {
                 if($nCI.css('display') != 'none') {
-                    $('input[name="customtype"]').prop('checked', false);
+                    $('input[name="comptype"]').prop('checked', false);
                     $('#select-account option:first').prop('selected', 'selected');
                     $('input[name="username"]').val('');
                 } else {
@@ -160,6 +160,14 @@
 
             $('.button.remove-media').on('click', function() {
                 removeMedia($(this));
+            });
+
+            $('#select-account').on('click', function() {
+                $('input[value="fromaccount"]')[0].checked = true;
+            });
+
+            $('#choose-name').on('click', function() {
+                $('input[value="fromname"]')[0].checked = true;
             });
         });
     </script>

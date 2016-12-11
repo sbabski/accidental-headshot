@@ -2,18 +2,65 @@ h1 a {
   text-decoration: none;
 }
 
-.end-button.off, .start-button.off{
+.off {
   display: none;
 }
 
 table#media-list th.wide {
-	width: 40%;
+	width: 38.75%;
 }
 
 table#media-list th.narrow {
-	width: 10%;
+	width: 8.75%;
+}
+
+table#media-list th.mini {
+	width: 5%;
 }
 
 table#media-list td > * {
 	width:100%;
+    margin-bottom: 0;
+}
+
+table#media-list h6 {
+	text-align: center;
+	font-weight: 700;
+}
+
+.collapsible {
+	border: 1px solid #D1D1D1;
+    border-radius: 5px;
+    margin-bottom: 3rem;
+}
+
+.collapsible .header {
+	padding: 1rem;
+	background-color: #efefef;
+}
+
+.collapsible .header h6 {
+	margin: 0;
+	text-align: center;
+}
+
+.collapsible .title {
+	padding: 0.75rem;
+	font-weight: 700;
+}
+
+.collapsible .content {
+	padding: 2rem;
+}
+
+.collapsible .button {
+	margin-bottom: 0;
+}
+
+.collapsible .numeric {
+	margin: 0;
+}
+
+.columns.shrink {
+	margin-left: 2%;
 }

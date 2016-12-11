@@ -27,7 +27,7 @@
                     <span id="newExisting" class="button start-button">Existing Taste Profile</span>
                     <span id="newCustom" class="button start-button">Custom List</span>
                 </div>
-                <div id="newExistingInput" style="display:none">
+                <div id="newExistingInput" class="off">
                     <label>Choose Existing Taste Profile</label>
                     <select id="select-project">
                         <option selected disabled>Profiles:</option>
@@ -37,25 +37,20 @@
                     </select>
                     <p id="existingPreview">Show preview of this profile</p>
                 </div>
-                <div id="newCustomInput" class="collapsible" style="display:none">
+                <div id="newCustomInput" class="off">
                     <div class="row">
                         <h6>
-                            <strong>Member Name</strong> - 
+                            <strong>Source</strong> - 
                             <em>can either create from scratch or attach to existing user</em>
                         </h6>
-                        <div class="five columns">
+                        <div class="six columns shrink">
                             <input type="radio" name="comptype" value="fromname">
-                                <span style="margin-left: 1rem">Name</span>
-                            </input>
+                            <span style="margin-left: 1rem">Name</span>
                             <input id="choose-name" class="u-full-width" type="text" name="username" placeholder="Name">
                         </div>
-                        <div class="one column" style="text-align:center;">
-                            <h6 style="margin-top:75%">OR</h6>
-                        </div>
-                        <div class="five columns">
+                        <div class="six columns shrink">
                             <input type="radio" name="comptype" value="fromaccount">
-                                <span style="margin-left: 1rem">Account</span>
-                            </input>
+                            <span style="margin-left: 1rem">Account</span>
                             <select id="select-account" name="account" class="u-full-width">
                                 <option selected disabled>Users:</option>
                                 {% for u in users %}
@@ -67,7 +62,7 @@
                     <hr>
                     <div class="row">
                         <h6>
-                            <strong>Member Media List</strong> - 
+                            <strong>Taste Profile Media List</strong> - 
                             <em>temp: has to have 25 items</em>
                         </h6>
                         <table id="media-list" class="u-full-width">
@@ -81,6 +76,7 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td><h6>1</h6></td>
                                     <td>
                                         <input type="text" name="medianame" placeholder="Name">
                                     </td>
@@ -105,7 +101,8 @@
                 </div>
 
                 <span id="cancel" class="button end-button off">Cancel</span>
-                <button type="submit" id="confirm" class="button button-primary end-button off">Confirm</button>
+                <span id="confirm" class="button button-primary end-button off">Confirm</span>
+                <!--<button type="submit" id="confirm" class="button button-primary end-button off">Confirm</button>-->
             </form>
         </div>
     </div>
@@ -136,7 +133,7 @@
                 </tr>';
 
             function cancelAdd() {
-                $nCI.add($nEI).hide();
+                $nCI.add($nEI).addClass('off');
                 $eB.addClass('off');
                 $sB.removeClass('off');
             };
@@ -145,8 +142,8 @@
                 el.parents('tr').remove();
             }
 
-            $('#newExisting').on('click', function() { $nEI.show(); });
-            $('#newCustom').on('click', function() { $nCI.show(); });
+            $('#newExisting').on('click', function() { $nEI.removeClass('off'); });
+            $('#newCustom').on('click', function() { $nCI.removeClass('off'); });
 
             $sB.on('click', function() {
                 $eB.removeClass('off');
@@ -183,7 +180,7 @@
                 $('input[value="fromname"]')[0].checked = true;
             });
 
-            $('#profile').on('submit', function(e) {
+            $('#confirm').on('click', function(e) {
                 e.preventDefault();
 
                 console.log('aaa')

@@ -3,10 +3,10 @@ from werkzeug.datastructures import ImmutableMultiDict
 from flask_sqlalchemy import SQLAlchemy
 import bcrypt
 import db
-from extractor import *
+
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-#db2 = SQLAlchemy(app)
+db2 = SQLAlchemy(app)
 
 # Create our database model
 '''class User(db.Model):
@@ -52,8 +52,8 @@ def register():
     exists = db.users.find_one({'name': name})
     if exists is None:
       hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-      session['username'] = name
       db.add_user(name, hashpass)
+      session['username'] = name
       return redirect(url_for('index'))
 
     return 'That username already exists!'
@@ -64,31 +64,19 @@ def register():
 def create():
   if request.method == 'POST':
     f = dict(request.form);
-    comps = []
-    members = [session['username']]
-    #check if length is right
-    if f['comptype'][0] == 'fromname' or f['comptype'][0] == 'fromaccount':
-      media_name = f['medianame']
-      media_list = []
-      for i  in range(0, len(media_name)):
-        single = db.add_media(media_name[i], f['mediatype'][i], f['mediaweight'][i])
-        #error throwing for incomplete extraction
-        single_list = []
-        for s in single:
-          #has to be revised: need object id of media already, should be done in db
-          single_list.append(db.add_trope(s, media_name[i]))
-        media_list.append(single_list)
-      comp_name = ''
-      if f['comptype'][0] == 'fromname':
-        comp_name = f['username'][0]
-      else:
-        comp_name = f['account'][0]
-        members.append(comp_name)
-      comps.append(db.add_component(comp_name, False, media_list))
-    members = list(set(members))
-    #add project to all users in members
-    project = db.add_project(f['projectname'][0], comps, members)
-    return str(project)
+    result = ''
+    if f['customtype'][0] == 'fromname':
+      #check if length is right
+      for i  in range(0, len(f['medianame'])):
+        #compile things into member
+        #run member through extractor
+        name = f['medianame'][i]
+        type = f['mediatype'][i]
+        weight = f['mediatype'][i]
+        result += name
+        #run through extractor
+        #figure out best way to throw errorhttp://accidentalheadshot.com:5000/create-taste-profilehttp://accidentalheadshot.com:5000/create-taste-profile
+      return str(session['username'])
 
   users = db.users.find()
   projects = db.projects.find()

@@ -1,6 +1,7 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+import pprint
 
 def sitemapper(page):
   print('mapping ' + page)
@@ -14,6 +15,7 @@ def sitemapper(page):
 
 def parse_page(title, type):
   print('extracting ' + title)
+  title = title.lower()
   soup = to_soup(format_url(title, type))
   section = soup.find_all('div', class_='page-content')
   #print(section)
@@ -31,6 +33,7 @@ def parse_page(title, type):
   return result
 
 def parse_subpage(url):
+  print('parse subpage: ' + url)
   soup = to_soup(url)
   return find_folders(soup)
 
@@ -39,18 +42,18 @@ def find_folders(data, title=''):
   folders = data.find_all('div', class_='folder')
   result = []
   if folders:
-    #print('extracting folders')
+    print('extracting folders')
     for folder in folders:
       result += e(folder, extract_trope)
   else:
-    #print('no folders')
+    print('no folders')
     def cb(uls):
       return test_sub(uls, title.replace(' ', ''))
-    result = e(data.find('body'), cb)
+    result = e(data, cb)
   return list(set(result))
 
 def e(text, cb):
-  #print('extracting section')
+  print('extracting section')
   uls = text.find_all('ul', recursive = False)
   if(not uls):
     print('no links after hr')
@@ -93,7 +96,9 @@ def test_sub(uls, title):
 def format_url(title, type):
   type = type.replace(' ', '')
   title = title.replace(' ', '')
-  return 'http://tvtropes.org/pmwiki/pmwiki.php/' + type + '/' + title
+  url = 'http://tvtropes.org/pmwiki/pmwiki.php/' + type + '/' + title
+  return url
+
 
 def to_soup(url):
   r = requests.get(url)
