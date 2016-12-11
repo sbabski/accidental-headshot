@@ -107,6 +107,16 @@
             </form>
         </div>
     </div>
+    <div id="import-popup" class="off">
+        <div id="import-inner">
+            <div class="container">
+                <div class="row">
+                    <h1>Here I am!</h1>
+                </div>
+                <div id="import-close">X</div>
+            </div>
+        </div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -115,6 +125,7 @@
             var newRowIndex = 2;
 
             $('.edit').on('click', collapseSection);
+            $('.delete').on('click', removeSection);
             $('.add-new-row').on('click', addNewRow);
             $('.button.remove-media').on('click', removeMedia);
             setChangeName($('.select-account'), $('input[value="fromaccount"]'));
@@ -127,8 +138,9 @@
                 $collapse.find('.edit').text('Edit');
 
                 var $insert = $(newCollapsible);
-                $insert.insertAfter($('.collapsible:last-child'));
+                $('#profile > .row:last').append($insert);
                 $insert.find('.edit').on('click', collapseSection);
+                $insert.find('.delete').on('click', removeSection);
                 $insert.find('.add-new-row').on('click', addNewRow);
                 $insert.find('.button.remove-media').on('click', removeMedia);
                 setChangeName($insert.find('.select-account'), $insert.find('input[value="fromaccount"]'));
@@ -136,8 +148,12 @@
             });
 
             $('#import-project').on('click', function() {
-
+                $('#import-popup').removeClass('off');
             });
+
+            $('#import-close').on('click', function() {
+                $('#import-popup').addClass('off');
+            })
 
             function addNewRow() {
                 var $insert = $(newRow);
@@ -167,6 +183,10 @@
                     $parent.find('.content:not(".unused"), hr').addClass('off');
                     $(this).text('Edit');
                 }
+            }
+
+            function removeSection() {
+                $(this).parents('.collapsible').remove();
             }
 
             function changeName(el) {
