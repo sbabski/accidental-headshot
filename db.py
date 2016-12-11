@@ -20,9 +20,6 @@ def get_users_by_name():
 def get_single_user(name):
   return users.find_one({'name': name})
 
-def get_single_media_by_id(id):
-  return media.find_one({'_id': id})
-
 
 #user will specify name and favs to be placed in default project
 def add_user(name, hashpass):
