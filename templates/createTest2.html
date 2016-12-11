@@ -29,8 +29,8 @@
                             <h6 class="eight columns title">Unnamed</h6>
                             <div class="four columns">
                                 <div class="u-pull-right">
-                                    <span id="cancel" class="button">Edit</span>
-                                    <span id="cancel" class="button button-primary">Delete</span>
+                                    <span class="button edit">Done</span>
+                                    <span class="button button-primary delete">Delete</span>
                                 </div>
                                 <div class="u-cf"></div>
                             </div>
@@ -43,12 +43,12 @@
                             <div class="six columns shrink">
                                 <input type="radio" name="comptype" value="fromname" checked>
                                 <span style="margin-left: 1rem">Name</span>
-                                <input id="choose-name" class="u-full-width" type="text" name="username" placeholder="Name">
+                                <input class="u-full-width choose-name" type="text" name="username" placeholder="Name">
                             </div>
                             <div class="six columns shrink">
                                 <input type="radio" name="comptype" value="fromaccount">
                                 <span style="margin-left: 1rem">Account</span>
-                                <select id="select-account" name="account" class="u-full-width">
+                                <select name="account" class="u-full-width select-account">
                                     <option selected disabled>Users:</option>
                                     {% for u in users %}
                                     <option value="{{ u.name }}">{{ u.name }}</option>
@@ -62,7 +62,7 @@
                                 <strong>Taste Profile Media List</strong> - 
                                 <em>temp: has to have 25 items</em>
                             </h6>
-                            <table id="media-list" class="u-full-width">
+                            <table class="u-full-width media-list">
                                 <thead>
                                     <tr>
                                         <th class="mini"></th>
@@ -93,16 +93,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div id="add-new-row" class="button button-primary u-pull-right">Add New Row</div>
+                            <div class="button button-primary u-pull-right add-new-row">Add New Row</div>
                             <div class="u-cf"></div>
                         </div>
-                        <div id="import" class="content row off">
+                        <div id="import" class="content row off unused">
                             <h3>Test</h3>
                         </div>
                     </div>
                 </div>
-
-                <span id="cancel" class="button end-button off">Cancel</span>
+                <span id="new-profile" class="button">Add New Profile</span>
+                <span id="import-project" class="button">Import Project</span>
                 <button type="submit" id="confirm" class="button button-primary end-button off">Confirm</button>
             </form>
         </div>
@@ -110,126 +110,82 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            var $nEI = $('#newExistingInput');
-            var $nCI = $('#newCustomInput');
-            var $sB = $('.start-button');
-            var $eB = $('.end-button');
+            var newCollapsible = $('.collapsible').prop('outerHTML');
+            var newRow = $('.media-list > tbody > tr').prop('outerHTML'); 
             var newRowIndex = 2;
-            var newRowStart = ' \
-                <tr> \
-                    <td><h6 class="numeric">'
-            var newRow = ' \
-                    </h6></td> \
-                    <td> \
-                        <input type="text" name="medianame" placeholder="Name"> \
-                    </td> \
-                    <td> \
-                        <select name="mediatype"> \
-                            <option>Film</option> \
-                            <option>Anime</option> \
-                            <option>Literature</option> \
-                            <option>Western Animation</option> \
-                        </select> \
-                    </td> \
-                    <td> \
-                        <input type="number" step="0.1" name="mediaweight" min="0" max="1" value=1> \
-                    </td> \
-                    <td><span class="button remove-media">X</span></td> \
-                </tr>';
 
-            var $selectAccount = $('#select-account');
-            var $fromAccount = $('input[value="fromaccount"]');
-            var $chooseName = $('#choose-name');
-            var $fromName = $('input[value="fromname"]');
+            $('.edit').on('click', collapseSection);
+            $('.add-new-row').on('click', addNewRow);
+            $('.button.remove-media').on('click', removeMedia);
+            setChangeName($('.select-account'), $('input[value="fromaccount"]'));
+            setChangeName($('.choose-name'), $('input[value="fromname"]'));
 
-            /*function cancelAdd() {
-                $nCI.add($nEI).hide();
-                $eB.addClass('off');
-                $sB.removeClass('off');
-            };*/
+            $('#new-profile').on('click', function() {
+                var $collapse = $('.collapsible:not(".collapsed")');
+                $collapse.addClass('collapsed');
+                $collapse.find('.content:not(".unused"), hr').addClass('off');
+                $collapse.find('.edit').text('Edit');
 
-            function removeMedia(el) {
-                var pos = el.parents('tr').find('.numeric').text();
-                el.parents('tbody').children().slice(pos).each(function() {
+                var $insert = $(newCollapsible);
+                $insert.insertAfter($('.collapsible:last-child'));
+                $insert.find('.edit').on('click', collapseSection);
+                $insert.find('.add-new-row').on('click', addNewRow);
+                $insert.find('.button.remove-media').on('click', removeMedia);
+                setChangeName($insert.find('.select-account'), $insert.find('input[value="fromaccount"]'));
+                setChangeName($insert.find('.choose-name'), $insert.find('input[value="fromname"]'));
+            });
+
+            $('#import-project').on('click', function() {
+
+            });
+
+            function addNewRow() {
+                var $insert = $(newRow);
+                $(this).prev().find('tbody').append($insert);
+                $insert.find('.numeric').text(newRowIndex);
+                newRowIndex++;
+                $insert.find('.button.remove-media').on('click', removeMedia);
+            }
+
+            function setChangeName(s, f) {
+                s.on('click', function() {
+                    f[0].checked = true;
+                    changeName(s);
+                });
+                s.on('change', function() { changeName(s); });
+                f.on('click', function() { changeName(s); });
+            }
+
+            function collapseSection() {
+                var $parent = $(this).parents('.collapsible');
+                if($parent.hasClass('collapsed')) {
+                    $parent.removeClass('collapsed');
+                    $parent.find('.content:not(".unused"), hr').removeClass('off');
+                    $(this).text('Done');
+                } else {
+                    $parent.addClass('collapsed');
+                    $parent.find('.content:not(".unused"), hr').addClass('off');
+                    $(this).text('Edit');
+                }
+            }
+
+            function changeName(el) {
+                var val = el.val();
+                if(val == '' || val == null) val = 'Unnamed';
+                el.parents('.collapsible').find('.title').text(val);
+            }
+
+            function removeMedia() {
+                var $this = $(this);
+                var pos = $this.parents('tr').find('.numeric').text();
+                $this.parents('tbody').children().slice(pos).each(function() {
                     var num = $(this).find('.numeric');
                     num.text(num.text() - 1);
                 });
                 newRowIndex--;
-                el.parents('tr').remove();
+                $this.parents('tr').remove();
             }
 
-            /*$('#newExisting').on('click', function() { $nEI.show(); });
-            $('#newCustom').on('click', function() { $nCI.show(); });*/
-
-            /*$sB.on('click', function() {
-                $eB.removeClass('off');
-                $sB.addClass('off');
-            });*/
-
-            /*$('#cancel').on('click', function() {
-                if($nCI.css('display') != 'none') {
-                    $('input[name="comptype"]').prop('checked', false);
-                    $('#select-account option:first').prop('selected', 'selected');
-                    $('input[name="username"]').val('');
-                } else {
-                    $('#select-project option:first').prop('selected', 'selected');
-                }
-                cancelAdd();
-            });*/                
-
-            $('#add-new-row').on('click', function() {
-                $('#media-list > tbody').append(newRowStart + newRowIndex + newRow);
-                newRowIndex++;
-                $('#media-list > tbody > tr:last .button.remove-media').on('click', function() {
-                    removeMedia($(this));
-                });
-            });
-
-            $('.button.remove-media').on('click', function() {
-                removeMedia($(this));
-            });
-
-            $selectAccount.on('click', function() {
-                $fromAccount[0].checked = true;
-                changeName($selectAccount);
-            });
-
-            $selectAccount.on('change', function() {
-                changeName($selectAccount);
-            });
-
-            $fromAccount.on('click', function() {
-                changeName($selectAccount);
-            });
-
-            $chooseName.on('click', function() {
-                console.log('here');
-                $fromName[0].checked = true;
-                changeName($chooseName);
-            });
-
-            $chooseName.on('change', function() {
-                changeName($chooseName);
-            });
-
-            $fromName.on('click', function() {
-                changeName($chooseName);
-            });
-
-            function changeName(el) {
-                el.parents('.collapsible').find('.title').text(el.val());
-            }
-
-            $('#select-project').on('click', function() {
-                $('input[value="fromproject"]')[0].checked = true;
-            })
-
-            //$('input[value="fromname"], input[value="fromaccount"').on('change', viewCustomList);
-
-            $('#profile').on('submit', function(e) {
-                e.preventDefault();
-                //$(this).submit();
-            });
         });
     </script>
 </body>
